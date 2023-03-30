@@ -2,8 +2,17 @@
 #define _FIXEDSIZEPOOL_HPP
 
 #include <cstring>
+#ifdef __linux__
 #define  _XOPEN_SOURCE_EXTENDED 1
 #include <strings.h>
+#else
+inline int ffs(unsigned i)
+{
+    if (i == 0) return 0;
+    double d = i ^ (i - !!i);
+    return (((int *)&d)[1] >> 20) - 1022;
+}
+#endif
 #include <iostream>
 #include <stdio.h>
 #include "StdAllocator.hpp"
